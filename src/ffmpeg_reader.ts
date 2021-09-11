@@ -28,7 +28,7 @@ export class FFmpegReader extends EventEmitter {
             'pipe:1',
         ]);
     }
-    public convert_video(path: string, resolution: string, framerate: string){
+    public convert_video(path: string, resolution: string, height: string, framerate: string){
         this.start_conversion([
             '-i',
             path.replace('fifo://', ''),
@@ -37,7 +37,7 @@ export class FFmpegReader extends EventEmitter {
             '-r',
             framerate,
             '-vf',
-            'scale=' + resolution + ':-1',
+            'scale=' + resolution + ':' + height ,
             'pipe:1',
         ]);
     }

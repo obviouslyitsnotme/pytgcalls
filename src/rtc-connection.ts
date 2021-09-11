@@ -40,6 +40,7 @@ export class RTCConnection {
                 videoReadable.convert_video(
                     fileVideoPath,
                     videoParams.width,
+                    videoParams.height,
                     videoParams.framerate,
                 );
             }else{
@@ -248,6 +249,7 @@ export class RTCConnection {
                 videoReadable.convert_video(
                     videoParams.path,
                     videoParams.width,
+                    videoParams.height,
                     videoParams.framerate,
                 );
 
