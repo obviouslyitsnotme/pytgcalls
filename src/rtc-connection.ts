@@ -243,7 +243,7 @@ export class RTCConnection {
             );
         }
         let videoReadable;
-        if(videoParams != undefined){
+        if(videoParams !== undefined){
             if(videoParams.path.includes('fifo://')){
                 videoReadable = new FFmpegReader();
                 videoReadable.convert_video(
