@@ -9,4 +9,3 @@ class InputAudioStream:
     ):
         self.path: str = path
         self.parameters: AudioParameters = parameters
-

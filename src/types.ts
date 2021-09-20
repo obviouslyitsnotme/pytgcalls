@@ -70,9 +70,16 @@ export interface RemotePlayingTimeResponse {
 export type RemotePlayingTimeCallback = (
 ) => RemotePlayingTimeResponse;
 
+export interface RemoteLaggingResponse {
+    isLagging: boolean;
+}
+
+export type RemoteLaggingCallback = (
+) => RemoteLaggingResponse;
+
 export type onData = (
     data: any,
-) => null;
+) => void;
 
 export type onEnd = (
-) => null;
+) => void;

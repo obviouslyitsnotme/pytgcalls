@@ -1,6 +1,9 @@
 import asyncio
 import re
 import subprocess
+from typing import Dict
+from typing import List
+from typing import Optional
 
 from .exceptions import FFmpegNotInstalled
 from .exceptions import InvalidVideoProportion
@@ -10,14 +13,39 @@ from .exceptions import NoVideoSourceFound
 
 class FFprobe:
     @staticmethod
+    def ffmpeg_headers(
+        headers: Optional[Dict[str, str]] = None,
+    ):
+        ffmpeg_params: List[str] = []
+        if headers is not None:
+            ffmpeg_params.append('-headers')
+            built_header = ''
+            for i in headers:
+                built_header += f'{i}: {headers[i]}\r\n'
+            ffmpeg_params.append(built_header)
+        return ':_cmd_:'.join(
+            ffmpeg_params,
+        )
+
+    @staticmethod
     async def check_file(
         path: str,
+        needed_audio=False,
         needed_video=False,
+        headers: Optional[Dict[str, str]] = None,
     ):
+        ffmpeg_params: List[str] = []
+        if headers is not None:
+            ffmpeg_params.append('-headers')
+            built_header = ''
+            for i in headers:
+                built_header += f'{i}: {headers[i]}\r\n'
+            ffmpeg_params.append(built_header)
         try:
             ffprobe = await asyncio.create_subprocess_exec(
                 'ffprobe',
                 path,
+                *tuple(ffmpeg_params),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
@@ -60,8 +88,9 @@ class FFprobe:
                     raise InvalidVideoProportion(
                         'Video proportion not found',
                     )
-            if not have_audio:
-                raise NoAudioSourceFound(path)
+            if needed_audio:
+                if not have_audio:
+                    raise NoAudioSourceFound(path)
             if have_video:
                 return original_width, original_height
         except FileNotFoundError:
