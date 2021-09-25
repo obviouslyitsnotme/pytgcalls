@@ -17,13 +17,19 @@ py_logger = logging.getLogger('pytgcalls')
 
 
 class Binding:
-    def __init__(self):
+    def __init__(
+        self,
+        overload_quiet_mode: bool,
+        multi_thread: bool,
+    ):
         self._js_process = None
         self._ssid = ''
         self._on_request = None
         self._on_connect = None
         self._last_ping = 0
         self._waiting_ping = None
+        self._multi_thread = multi_thread
+        self._overload_quiet = overload_quiet_mode
 
         def cleanup():
             async def async_cleanup():
@@ -91,9 +97,9 @@ class Binding:
         return f'{__file__.replace("binding.py", "")}'
 
     async def connect(
-            self,
-            event: Future,
-            user_id: int,
+        self,
+        event: Future,
+        user_id: int,
     ):
         if self._js_process is None:
             sep = os.path.sep
@@ -127,6 +133,8 @@ class Binding:
                                     self._send({
                                         'try_connect': 'connected',
                                         'user_id': user_id,
+                                        'overload_quiet': self._overload_quiet,
+                                        'multi_thread': self._multi_thread,
                                     }),
                                 )
                                 asyncio.ensure_future(self._on_connect())
