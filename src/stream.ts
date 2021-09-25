@@ -30,7 +30,7 @@ export class Stream extends EventEmitter {
     private videoHeight: number = 0;
     private videoFramerate: number = 0;
     private lastDifferenceRemote: number = 0;
-    private lipSync: boolean = false;
+    private lipSync: boolean = true;
     private overloadQuiet: boolean = false;
     remotePlayingTime?: RemotePlayingTimeCallback;
     remoteLagging?: RemoteLaggingCallback;

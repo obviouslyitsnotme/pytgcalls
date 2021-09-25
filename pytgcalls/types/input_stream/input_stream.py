@@ -9,7 +9,7 @@ class InputStream:
         self,
         stream_audio: Optional[InputAudioStream] = None,
         stream_video: Optional[InputVideoStream] = None,
-        lip_sync: bool = False,
+        lip_sync: bool = True,
     ):
         self.stream_audio: Optional[InputAudioStream] = stream_audio
         self.stream_video: Optional[InputVideoStream] = stream_video

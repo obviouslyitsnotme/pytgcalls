@@ -15,7 +15,7 @@ export class MultiCoreRTCConnection {
         additional_parameters: string,
         audioParams?: any,
         videoParams?: any,
-        lipSync: boolean = false,
+        lipSync: boolean = true,
     ) {
         // @ts-ignore
         this.process_multicore = new Worker(__filename);
@@ -106,7 +106,7 @@ export class MultiCoreRTCConnection {
             });
         }
     }
-    changeStream(additional_parameters: string, audioParams: any, videoParams?: any, lipSync: boolean = false){
+    changeStream(additional_parameters: string, audioParams: any, videoParams?: any, lipSync: boolean = true){
         if(this.process_multicore){
             this.process_multicore?.postMessage({
                 action: 'changeStream',
@@ -163,7 +163,7 @@ export class RTCConnection {
         additional_parameters: string,
         public audioParams?: any,
         public videoParams?: any,
-        lipSync: boolean = false,
+        lipSync: boolean = true,
         overloadQuiet: boolean = false,
     ) {
         this.tgcalls = new TGCalls({ chatId: this.chatId });
@@ -418,7 +418,7 @@ export class RTCConnection {
         this.tgcalls.unmute();
     }
 
-    async changeStream(additional_parameters: string, audioParams?: any, videoParams?: any, lipSync: boolean = false) {
+    async changeStream(additional_parameters: string, audioParams?: any, videoParams?: any, lipSync: boolean = true) {
         let audioReadable;
         this.almostFinished = 0;
         this.almostRestarted = 0;
